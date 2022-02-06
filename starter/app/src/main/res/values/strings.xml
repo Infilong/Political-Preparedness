@@ -2,6 +2,16 @@
 <resources>
     <string name="app_name">Political Preparedness</string>
 
-    <!-- TODO: Add necessary string values -->
+    <!-- Add necessary string values -->
+    <string name="upcoming_elections">UPCOMING ELECTIONS</string>
+    <string name="find_representatives">FIND MY REPRESENTATIVES</string>
+    <string name="use_location">USE MY LOCATION</string>
+    <string name="representative_search">Representative Search</string>
+    <string name="address_line_1">Address Line 1</string>
+    <string name="address_line_2">Address Line 2</string>
+    <string name="hint_city">City</string>
+    <string name="hint_zip">Zip</string>
+    <string name="my_representatives">My Representatives</string>
+    <string name="follow_election">FOLLOW ELECTION</string>
 
 </resources>
