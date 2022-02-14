@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:motion="http://schemas.android.com/tools">
+    xmlns:motion="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- TODO: Add data binding node -->
     <data>
@@ -141,8 +142,16 @@
             motion:layout_editor_absoluteX="8dp" />
 
         <!-- TODO: Add Representatives RecyclerView -->
-
         <!-- TODO: Add visual styling and content -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/representatives"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/default_padding"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/representative_title"
+            motion:layout_editor_absoluteX="8dp"
+            tools:listitem="@layout/representative_item" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
