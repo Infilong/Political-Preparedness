@@ -8,7 +8,7 @@ import com.example.android.politicalpreparedness.databinding.UpcomingElectionLis
 import com.example.android.politicalpreparedness.network.models.Election
 
 class ElectionListAdapter(private val clickListener: ElectionClickListener) :
-    androidx.recyclerview.widget.ListAdapter<Election, RecyclerView.ViewHolder>(ElectionDiffCallback()) {
+    androidx.recyclerview.widget.ListAdapter<Election, ElectionListAdapter.ElectionViewHolder>(ElectionDiffCallback()) {
     class ElectionViewHolder (val binding: UpcomingElectionListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -28,17 +28,15 @@ class ElectionListAdapter(private val clickListener: ElectionClickListener) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ElectionViewHolder {
-        return ElectionViewHolder.from(parent)
-    }
-
     //TODO: Bind ViewHolder
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ElectionViewHolder, position: Int) {
         val electionItem = getItem(position)
-        holder as ElectionViewHolder
         holder.bind(electionItem, clickListener)
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ElectionViewHolder {
+        return ElectionViewHolder.from(parent)
+    }
 
     //TODO: Create ElectionDiffCallback
     class ElectionDiffCallback : DiffUtil.ItemCallback<Election>() {
