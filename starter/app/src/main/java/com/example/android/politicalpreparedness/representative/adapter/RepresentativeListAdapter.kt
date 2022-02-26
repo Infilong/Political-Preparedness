@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.RepresentativeItemBinding
 import com.example.android.politicalpreparedness.network.models.Channel
-import com.example.android.politicalpreparedness.network.models.Official
 import com.example.android.politicalpreparedness.representative.model.Representative
 
 class RepresentativeListAdapter :
@@ -99,20 +98,21 @@ class RepresentativeListAdapter :
         holder.bind(item)
     }
 
+
     //TODO: Create RepresentativeDiffCallback
-    class RepresentativeDiffCallback : DiffUtil.ItemCallback<Official>() {
-        override fun areItemsTheSame(oldItem: Official, newItem: Official): Boolean {
+    class RepresentativeDiffCallback : DiffUtil.ItemCallback<Representative>() {
+        override fun areItemsTheSame(oldItem: Representative, newItem: Representative): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Official, newItem: Official): Boolean {
-            return oldItem.name == newItem.name
+        override fun areContentsTheSame(oldItem: Representative, newItem: Representative): Boolean {
+            return oldItem == newItem
         }
     }
 
     //TODO: Create RepresentativeListener
-    class RepresentativeListener(val listener: (official: Official) -> Unit) {
-        fun onClick(official: Official) = listener(official)
+    class RepresentativeListener(val listener: (official: Representative) -> Unit) {
+        fun onClick(official: Representative) = listener(official)
     }
 
 }

@@ -95,9 +95,7 @@ class DetailFragment : Fragment() {
             binding.addressLine2.setText(currentAddress.value?.line2)
             binding.city.setText(currentAddress.value?.city)
             binding.zip.setText(currentAddress.value?.zip)
-            val currentState = currentAddress.value?.state
-            binding.state.
-
+            binding.state.setSelection(stateList.indexOf(currentAddress.value?.state))
         }
 
         return binding.root
