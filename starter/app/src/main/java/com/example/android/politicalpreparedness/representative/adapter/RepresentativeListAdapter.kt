@@ -17,7 +17,8 @@ import com.example.android.politicalpreparedness.representative.model.Representa
 
 class RepresentativeListAdapter :
     androidx.recyclerview.widget.ListAdapter<Representative, RepresentativeListAdapter.RepresentativeViewHolder>(
-        RepresentativeDiffCallback()) {
+        RepresentativeDiffCallback()
+    ) {
 
     class RepresentativeViewHolder(val binding: RepresentativeItemBinding) :
         RecyclerView.ViewHolder(binding.root) {

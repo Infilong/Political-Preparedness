@@ -12,18 +12,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="7dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/official_image"
-            android:layout_width="67dp"
-            android:layout_height="78dp"
-            android:layout_marginStart="@dimen/default_padding"
-            android:layout_marginTop="@dimen/default_padding"
+            style="@style/profile_pic_style"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:profileImage="@{representative.official.photoUrl}"
             app:srcCompat="@drawable/ic_profile" />
 
         <ImageView

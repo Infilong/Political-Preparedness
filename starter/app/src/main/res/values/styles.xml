@@ -27,6 +27,13 @@
         <item name="android:layout_height">35dp</item>
     </style>
 
+    <style name="profile_pic_style">
+        <item name="android:layout_width">67dp</item>
+        <item name="android:layout_height">78dp</item>
+        <item name="android:layout_marginStart">@dimen/default_padding</item>
+        <item name="android:layout_marginTop">@dimen/default_padding</item>
+    </style>
+
     <!-- Margin style -->
 
 </resources>
