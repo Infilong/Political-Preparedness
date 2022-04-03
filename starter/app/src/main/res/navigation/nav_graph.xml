@@ -21,9 +21,9 @@
 
     <fragment
         android:id="@+id/representativeFragment"
-        android:name="com.example.android.politicalpreparedness.representative.DetailFragment"
+        android:name="com.example.android.politicalpreparedness.representative.RepresentativeFragment"
         android:label="fragment_representative"
-        tools:layout="@layout/fragment_representative"></fragment>
+        tools:layout="@layout/fragment_representative" />
 
     <fragment
         android:id="@+id/voterInfoFragment"
@@ -31,11 +31,8 @@
         android:label="fragment_voter_info"
         tools:layout="@layout/fragment_voter_info">
         <argument
-            android:name="arg_election_id"
-            app:argType="integer" />
-        <argument
-            android:name="arg_division"
-            app:argType="com.example.android.politicalpreparedness.network.models.Division" />
+            android:name="selectedElection"
+            app:argType="com.example.android.politicalpreparedness.network.models.Election" />
     </fragment>
 
     <fragment

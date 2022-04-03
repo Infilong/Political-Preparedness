@@ -29,9 +29,11 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_voter_info.*
+import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
-class DetailFragment : Fragment() {
+class RepresentativeFragment : Fragment() {
 
     private lateinit var binding: FragmentRepresentativeBinding
     private lateinit var contxt: Context
@@ -44,6 +46,9 @@ class DetailFragment : Fragment() {
         private const val TAG = "RepresentativeFragment"
         private const val LOCATION_PERMISSION_INDEX = 0
     }
+
+    //Get state list resource
+    private val stateList: Array<String> = resources.getStringArray(R.array.states)
 
     //TODO: Declare ViewModel
     val viewModel = RepresentativeViewModel()
@@ -60,8 +65,8 @@ class DetailFragment : Fragment() {
     ): View? {
 
         //TODO: Establish bindings
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_representative, container, false)
+        binding = FragmentRepresentativeBinding.inflate(inflater)
+        binding.viewModel = viewModel
 
         //TODO: Define and assign Representative adapter
         val adapter = RepresentativeListAdapter()
@@ -70,7 +75,7 @@ class DetailFragment : Fragment() {
         binding.representatives.adapter = adapter
 
         //Spinner
-        val stateList = resources.getStringArray(R.array.states)
+
         val spinnerArrayAdapter =
             ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, stateList)
         binding.state.adapter = spinnerArrayAdapter
@@ -85,17 +90,14 @@ class DetailFragment : Fragment() {
         }
 
         //TODO: Establish button listeners for field and location search
-        binding.buttonSearch.setOnClickListener {
+        binding.searchButton.setOnClickListener {
+            hideKeyboard()
 
         }
 
-        binding.buttonLocation.setOnClickListener {
-            val currentAddress = viewModel.getAddressFromGeolocation()
-            binding.addressLine1.setText(currentAddress.value?.line1)
-            binding.addressLine2.setText(currentAddress.value?.line2)
-            binding.city.setText(currentAddress.value?.city)
-            binding.zip.setText(currentAddress.value?.zip)
-            binding.state.setSelection(stateList.indexOf(currentAddress.value?.state))
+        binding.locationButton.setOnClickListener {
+            hideKeyboard()
+            requestLocationPermissions()
         }
 
         return binding.root
@@ -121,10 +123,11 @@ class DetailFragment : Fragment() {
 
     private fun requestLocationPermissions(): Boolean {
         return if (isPermissionGranted()) {
+            getLocation()
             true
         } else {
             //TODO: Request Location permissions
-            var permissionsArray = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+            val permissionsArray = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
             val requestCode = REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
             requestPermissions(permissionsArray, requestCode)
             false
@@ -177,7 +180,17 @@ class DetailFragment : Fragment() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location: Location ->
                     // Got last known location
-                    viewModel.address.observe(this) { geoCodeLocation(location) }
+                    viewModel.address.observe(viewLifecycleOwner) { geoCodeLocation(location) }
+
+                    val currentAddress = viewModel.address
+                    binding.addressLine1.setText(currentAddress.value?.line1)
+                    binding.addressLine2.setText(currentAddress.value?.line2)
+                    binding.city.setText(currentAddress.value?.city)
+                    binding.zip.setText(currentAddress.value?.zip)
+                    binding.state.setSelection(stateList.indexOf(currentAddress.value?.state))
+
+                    runBlocking { viewModel.getLocalAddressRepresentatives(geoCodeLocation(location)) }
+                    binding.representatives.visibility = View.VISIBLE
                 }
         }
     }

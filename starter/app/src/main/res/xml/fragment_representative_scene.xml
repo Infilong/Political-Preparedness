@@ -39,12 +39,12 @@
             <KeyAttribute
                 android:translationY="-340dp"
                 app:framePosition="100"
-                app:motionTarget="@id/button_search" />
+                app:motionTarget="@id/search_button" />
 
             <KeyAttribute
                 android:translationY="-340dp"
                 app:framePosition="100"
-                app:motionTarget="@id/button_location" />
+                app:motionTarget="@id/location_button" />
 
             <KeyAttribute
                 android:translationY="-340dp"
@@ -96,14 +96,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/city" />
         <Constraint
-            android:id="@+id/button_search"
+            android:id="@+id/search_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_padding"
             android:layout_marginEnd="@dimen/default_padding"
             app:layout_constraintTop_toBottomOf="@id/zip" />
         <Constraint
-            android:id="@+id/button_location"
+            android:id="@+id/location_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_padding"
@@ -112,13 +112,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_search" />
+            app:layout_constraintTop_toBottomOf="@+id/search_button" />
         <Constraint
             android:id="@+id/representative_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_padding"
-            app:layout_constraintTop_toBottomOf="@id/button_location" />
+            app:layout_constraintTop_toBottomOf="@id/location_button" />
         <Constraint
             android:id="@+id/representatives"
             android:layout_width="match_parent"
@@ -172,14 +172,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/city" />
         <Constraint
-            android:id="@+id/button_search"
+            android:id="@+id/search_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_padding"
             android:layout_marginEnd="@dimen/default_padding"
             app:layout_constraintTop_toBottomOf="@id/zip" />
         <Constraint
-            android:id="@+id/button_location"
+            android:id="@+id/location_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_padding"
@@ -188,13 +188,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_search" />
+            app:layout_constraintTop_toBottomOf="@+id/search_button" />
         <Constraint
             android:id="@+id/representative_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_padding"
-            app:layout_constraintTop_toBottomOf="@id/button_location" />
+            app:layout_constraintTop_toBottomOf="@id/location_button" />
         <Constraint
             android:id="@+id/representatives"
             android:layout_width="match_parent"

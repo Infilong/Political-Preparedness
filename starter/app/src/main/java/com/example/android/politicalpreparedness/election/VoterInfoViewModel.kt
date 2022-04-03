@@ -1,15 +1,53 @@
 package com.example.android.politicalpreparedness.election
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.database.ElectionDao
+import com.example.android.politicalpreparedness.network.CivicsApi
+import com.example.android.politicalpreparedness.network.models.Election
+import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class VoterInfoViewModel(private val dataSource: ElectionDao) : ViewModel() {
+class VoterInfoViewModel(private val dataSource: ElectionDao, val election: Election) :
+    ViewModel() {
 
     //TODO: Add live data to hold voter info
+    val voterInfo = MutableLiveData<VoterInfoResponse>()
 
     //TODO: Add var and methods to populate voter info
+    private suspend fun getVoterInfo() {
+        withContext(Dispatchers.IO) {
+            try {
+                val voterInfoResponse =
+                    CivicsApi.retrofitService.getVoterInfo(
+                        election.division.toString(),
+                        election.id
+                    )
+                voterInfo.value = voterInfoResponse.body()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            getVoterInfo()
+        }
+    }
 
     //TODO: Add var and methods to support loading URLs
+    private val _url = MutableLiveData<String>()
+    val url: LiveData<String>
+        get() = _url
+
+    fun setUrl(url: String?) {
+        _url.value = url
+    }
 
     //TODO: Add var and methods to save and remove elections to local database
     //TODO: cont'd -- Populate initial state of save button to reflect proper action based on election saved status
@@ -17,5 +55,27 @@ class VoterInfoViewModel(private val dataSource: ElectionDao) : ViewModel() {
     /**
      * Hint: The saved state can be accomplished in multiple ways. It is directly related to how elections are saved/removed from the database.
      */
+    private val _isElectionFollowed = MutableLiveData<Boolean>()
+    val isElectionFollowed: LiveData<Boolean>
+        get() = dataSource.isElectionFollowed(election.id)
 
+    //TODO: Handle save button UI state
+    fun onFollowButtonTextState() {
+        if (_isElectionFollowed.value == true) {
+            dataSource.unfollowElection(election.id)
+        } else {
+            dataSource.followElection(election.id)
+        }
+    }
+
+    //TODO: cont'd Handle save button clicks
+    suspend fun onFollowButtonClicked() {
+        withContext(Dispatchers.IO) {
+            if (_isElectionFollowed.value == true) {
+                dataSource.unfollowElection(election.id)
+            } else {
+                dataSource.followElection(election.id)
+            }
+        }
+    }
 }

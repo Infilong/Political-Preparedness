@@ -6,3 +6,10 @@ data class RepresentativeResponse(
         val offices: List<Office>,
         val officials: List<Official>
 )
+
+val RepresentativeResponse.representatives
+        get() = run {
+                offices.flatMap {
+                        it.getRepresentatives(officials)
+                }
+        }

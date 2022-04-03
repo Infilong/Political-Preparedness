@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Address
+import com.example.android.politicalpreparedness.network.models.representatives
 import com.example.android.politicalpreparedness.representative.model.Representative
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.Dispatchers
@@ -25,16 +26,6 @@ class RepresentativeViewModel : ViewModel() {
         get() = _address
 
     //TODO: Create function to fetch representatives from API from a provided address
-    suspend fun getLocalAddressRepresentatives(address: Address) {
-        withContext(Dispatchers.IO) {
-            try {
-                _representatives.value = CivicsApi.retrofitService.getRepresentatives(address)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
     /**
      *  The following code will prove helpful in constructing a representative from the API. This code combines the two nodes of the RepresentativeResponse into a single official :
 
@@ -47,9 +38,18 @@ class RepresentativeViewModel : ViewModel() {
      */
 
     //TODO: Create function get address from geo location
-    fun getAddressFromGeolocation(): MutableLiveData<Address> {
-        return _address
-    }
+
     //TODO: Create function to get address from individual fields
 
+    suspend fun getLocalAddressRepresentatives(address: Address) {
+        withContext(Dispatchers.IO) {
+            try {
+                val response =
+                    CivicsApi.retrofitService.getRepresentatives(address.toString())
+                _representatives.value = response.body()?.representatives
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }
