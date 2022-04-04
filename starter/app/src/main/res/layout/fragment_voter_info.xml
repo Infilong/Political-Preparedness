@@ -112,17 +112,18 @@
 
         <!-- TODO: Add button to save election to Room -->
         <Button
-            android:id="@+id/location_button"
+            android:id="@+id/follow_election_button"
             style="@style/button_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_padding"
             android:layout_marginEnd="@dimen/default_padding"
             android:layout_marginBottom="16dp"
-            android:text="@string/follow_election"
+            android:text="@{viewModel.isElectionFollowed ? @string/unfollow_election:@string/follow_election }"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Follow Election" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

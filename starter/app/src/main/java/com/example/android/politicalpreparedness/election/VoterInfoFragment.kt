@@ -6,7 +6,13 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class VoterInfoFragment : Fragment() {
 
@@ -21,7 +27,7 @@ class VoterInfoFragment : Fragment() {
         //TODO: Add binding values
         val binding = FragmentVoterInfoBinding.inflate(inflater)
         val selectedElection = VoterInfoFragmentArgs.fromBundle(requireArguments()).selectedElection
-        binding.viewModel = viewModel
+
         binding.election = selectedElection
         binding.lifecycleOwner = this
 
@@ -33,6 +39,7 @@ class VoterInfoFragment : Fragment() {
             ).get(
                 VoterInfoViewModel::class.java
             )
+        binding.viewModel = viewModel
 
         //TODO: Handle loading of URLs
         viewModel.url.observe(viewLifecycleOwner) { url ->
@@ -41,6 +48,9 @@ class VoterInfoFragment : Fragment() {
                 loadUrl(url)
             }
         }
+
+        //Set follow button click listener
+        binding.followElectionButton.setOnClickListener { viewModel.onFollowButtonClicked() }
 
         return binding.root
     }

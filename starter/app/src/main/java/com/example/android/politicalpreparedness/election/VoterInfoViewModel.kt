@@ -5,14 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.database.ElectionDao
+import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class VoterInfoViewModel(private val dataSource: ElectionDao, val election: Election) :
+class VoterInfoViewModel(private val dataSource: ElectionDatabase, val election: Election) :
     ViewModel() {
 
     //TODO: Add live data to hold voter info
@@ -57,24 +59,17 @@ class VoterInfoViewModel(private val dataSource: ElectionDao, val election: Elec
      */
     private val _isElectionFollowed = MutableLiveData<Boolean>()
     val isElectionFollowed: LiveData<Boolean>
-        get() = dataSource.isElectionFollowed(election.id)
+        get() = dataSource.electionDao.isElectionFollowed(election.id)
 
     //TODO: Handle save button UI state
-    fun onFollowButtonTextState() {
-        if (_isElectionFollowed.value == true) {
-            dataSource.unfollowElection(election.id)
-        } else {
-            dataSource.followElection(election.id)
-        }
-    }
 
     //TODO: cont'd Handle save button clicks
-    suspend fun onFollowButtonClicked() {
-        withContext(Dispatchers.IO) {
+    fun onFollowButtonClicked() {
+        CoroutineScope(Dispatchers.IO).launch {
             if (_isElectionFollowed.value == true) {
-                dataSource.unfollowElection(election.id)
+                dataSource.electionDao.unfollowElection(election.id)
             } else {
-                dataSource.followElection(election.id)
+                dataSource.electionDao.followElection(election.id)
             }
         }
     }
