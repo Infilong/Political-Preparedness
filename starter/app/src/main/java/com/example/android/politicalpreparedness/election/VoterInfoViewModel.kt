@@ -8,6 +8,7 @@ import com.example.android.politicalpreparedness.database.ElectionDao
 import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
+import com.example.android.politicalpreparedness.network.models.FollowedElections
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -67,9 +68,9 @@ class VoterInfoViewModel(private val dataSource: ElectionDatabase, val election:
     fun onFollowButtonClicked() {
         CoroutineScope(Dispatchers.IO).launch {
             if (_isElectionFollowed.value == true) {
-                dataSource.electionDao.unfollowElection(election.id)
+                dataSource.electionDao.unfollowElection(FollowedElections(election.id))
             } else {
-                dataSource.electionDao.followElection(election.id)
+                dataSource.electionDao.followElection(FollowedElections(election.id))
             }
         }
     }

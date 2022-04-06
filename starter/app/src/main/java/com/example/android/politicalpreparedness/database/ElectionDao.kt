@@ -33,11 +33,14 @@ interface ElectionDao {
     fun clear()
 
     //Follow and unfollow elections
-    @Query("INSERT INTO followed_elections_table VALUES(:electionId)")
-    fun followElection(electionId: Int)
+    @Insert(
+        entity = FollowedElections::class,
+        onConflict = OnConflictStrategy.REPLACE
+    )
+    fun followElection(followedElections: FollowedElections)
 
-    @Query("DELETE FROM followed_elections_table WHERE id = :electionId")
-    fun unfollowElection(electionId: Int)
+    @Delete(entity = FollowedElections::class)
+    fun unfollowElection(followedElections: FollowedElections)
 
     //Get followed elections
     @Query("SELECT * FROM election_table WHERE id IN (SELECT id FROM followed_elections_table) ORDER BY electionDay DESC")

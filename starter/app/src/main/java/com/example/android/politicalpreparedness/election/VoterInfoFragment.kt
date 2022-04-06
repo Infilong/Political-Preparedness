@@ -50,7 +50,7 @@ class VoterInfoFragment : Fragment() {
         }
 
         //Set follow button click listener
-        binding.followElectionButton.setOnClickListener { viewModel.onFollowButtonClicked() }
+        //binding.followElectionButton.setOnClickListener { viewModel.onFollowButtonClicked() }
 
         return binding.root
     }
