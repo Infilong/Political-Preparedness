@@ -48,7 +48,7 @@ class RepresentativeFragment : Fragment() {
     }
 
     //Get state list resource
-    private val stateList: Array<String> = resources.getStringArray(R.array.states)
+    private val stateList: Array<String> = activity?.resources?.getStringArray(R.array.states) ?: emptyArray()
 
     //TODO: Declare ViewModel
     val viewModel = RepresentativeViewModel()
