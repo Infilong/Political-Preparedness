@@ -44,7 +44,6 @@ class VoterInfoFragment : Fragment() {
         //TODO: Handle loading of URLs
         viewModel.url.observe(viewLifecycleOwner) { url ->
             url?.let {
-                viewModel.setUrl(url)
                 loadUrl(url)
             }
         }
