@@ -13,14 +13,18 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
+import com.example.android.politicalpreparedness.election.ElectionsViewModel
+import com.example.android.politicalpreparedness.election.ElectionsViewModelFactory
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import com.google.android.gms.common.api.ResolvableApiException
@@ -36,6 +40,7 @@ import java.util.Locale
 class RepresentativeFragment : Fragment() {
 
     private lateinit var binding: FragmentRepresentativeBinding
+    private lateinit var viewModel: RepresentativeViewModel
     private lateinit var contxt: Context
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -48,10 +53,8 @@ class RepresentativeFragment : Fragment() {
     }
 
     //Get state list resource
-    private val stateList: Array<String> = activity?.resources?.getStringArray(R.array.states) ?: emptyArray()
-
-    //TODO: Declare ViewModel
-    val viewModel = RepresentativeViewModel()
+    private val stateList: Array<String> =
+        activity?.resources?.getStringArray(R.array.states) ?: emptyArray()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -66,6 +69,10 @@ class RepresentativeFragment : Fragment() {
 
         //TODO: Establish bindings
         binding = FragmentRepresentativeBinding.inflate(inflater)
+
+        //TODO: Declare ViewModel
+        viewModel = RepresentativeViewModel()
+
         binding.viewModel = viewModel
 
         //TODO: Define and assign Representative adapter
@@ -74,11 +81,24 @@ class RepresentativeFragment : Fragment() {
         //TODO: Populate Representative adapter
         binding.representatives.adapter = adapter
 
-        //Spinner
+        //an instance of the Fused Location Provider Client
+        //https://developer.android.com/training/location/retrieve-current
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        val spinnerArrayAdapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, stateList)
-        binding.state.adapter = spinnerArrayAdapter
+        //Spinner
+        //https://developer.android.com/guide/topics/ui/controls/spinner
+        val spinner: Spinner = binding.state
+        ArrayAdapter.createFromResource(
+            contxt,
+            R.array.states,
+            android.R.layout.simple_spinner_item
+        ).also { spinnerAdapter ->
+            // Specify the layout to use when the list of choices appears
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = spinnerAdapter
+        }
+
         binding.state.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 

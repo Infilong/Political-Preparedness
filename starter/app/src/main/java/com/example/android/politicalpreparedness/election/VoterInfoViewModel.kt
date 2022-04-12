@@ -65,7 +65,7 @@ class VoterInfoViewModel(private val dataSource: ElectionDatabase, val election:
     /**
      * Hint: The saved state can be accomplished in multiple ways. It is directly related to how elections are saved/removed from the database.
      */
-    private val _isElectionFollowed = MutableLiveData<Boolean>()
+
     val isElectionFollowed: LiveData<Boolean> =
         dataSource.electionDao.isElectionFollowed(election.id)
     //    having data returned with get() backing method will always return a new instance of the corresponding data.
@@ -77,14 +77,11 @@ class VoterInfoViewModel(private val dataSource: ElectionDatabase, val election:
     //TODO: cont'd Handle save button clicks
     fun onFollowButtonClicked() {
         CoroutineScope(Dispatchers.IO).launch {
-            if (_isElectionFollowed.value == true) {
+            if (isElectionFollowed.value == true) {
                 dataSource.electionDao.unfollowElection(FollowedElections(election.id))
-                _isElectionFollowed.postValue(false)
             } else {
                 dataSource.electionDao.followElection(FollowedElections(election.id))
-                _isElectionFollowed.postValue(true)
             }
         }
     }
-
 }

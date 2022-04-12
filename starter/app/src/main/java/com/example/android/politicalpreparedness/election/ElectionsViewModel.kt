@@ -31,8 +31,7 @@ class ElectionsViewModel(context: Context) : ViewModel() {
 
     //TODO: Create functions to navigate to saved or upcoming election voter info
     private val _navigateToElectionDetail = MutableLiveData<Election>()
-    val navigateToElectionDetail: LiveData<Election>
-        get() = _navigateToElectionDetail
+    val navigateToElectionDetail: LiveData<Election> = _navigateToElectionDetail
 
 
     fun onElectionItemClicked(election: Election) {
