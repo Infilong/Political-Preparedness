@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +28,7 @@ class VoterInfoFragment : Fragment() {
         //TODO: Add binding values
         val binding = FragmentVoterInfoBinding.inflate(inflater)
         val selectedElection = VoterInfoFragmentArgs.fromBundle(requireArguments()).selectedElection
+
 
         binding.election = selectedElection
         binding.lifecycleOwner = this
@@ -48,8 +50,16 @@ class VoterInfoFragment : Fragment() {
             }
         }
 
-        //Set follow button click listener
-        //binding.followElectionButton.setOnClickListener { viewModel.onFollowButtonClicked() }
+//        Set follow button click listener
+//
+//        binding.followElectionButton.setOnClickListener {
+//            viewModel.onFollowButtonClicked()
+//            if (viewModel.isElectionIdFollowed) {
+//                binding.followElectionButton.text = getText(R.string.unfollow_election)
+//            } else {
+//                binding.followElectionButton.text = getText(R.string.follow_election)
+//            }
+//        }
 
         return binding.root
     }
