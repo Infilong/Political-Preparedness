@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.RepresentativeItemBinding
+import com.example.android.politicalpreparedness.election.adapter.ElectionListAdapter
 import com.example.android.politicalpreparedness.network.models.Channel
 import com.example.android.politicalpreparedness.representative.model.Representative
 
@@ -116,10 +117,6 @@ class RepresentativeListAdapter :
     }
 
     //TODO: Create RepresentativeListener
-    class RepresentativeListener(val listener: (official: Representative) -> Unit) {
-        fun onClick(official: Representative) = listener(official)
-    }
-
 }
 
 

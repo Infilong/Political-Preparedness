@@ -48,5 +48,5 @@ interface ElectionDao {
 
     //Check whether election is followed
     @Query("SELECT CASE id WHEN NULL THEN 0 ELSE 1 END FROM followed_elections_table WHERE id = :electionId")
-    fun isElectionFollowed(electionId: Int): LiveData<Boolean>
+    fun isElectionFollowed(electionId: Int): Boolean
 }

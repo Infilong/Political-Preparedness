@@ -27,6 +27,7 @@ import com.example.android.politicalpreparedness.election.ElectionsViewModel
 import com.example.android.politicalpreparedness.election.ElectionsViewModelFactory
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
+import com.example.android.politicalpreparedness.representative.model.Representative
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
@@ -72,14 +73,11 @@ class RepresentativeFragment : Fragment() {
 
         //TODO: Declare ViewModel
         viewModel = RepresentativeViewModel()
-
         binding.viewModel = viewModel
 
         //TODO: Define and assign Representative adapter
-        val adapter = RepresentativeListAdapter()
-
         //TODO: Populate Representative adapter
-        binding.representatives.adapter = adapter
+        setRecyclerViewAdapter()
 
         //an instance of the Fused Location Provider Client
         //https://developer.android.com/training/location/retrieve-current
@@ -101,11 +99,9 @@ class RepresentativeFragment : Fragment() {
 
         binding.state.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-
             }
         }
 
@@ -210,7 +206,7 @@ class RepresentativeFragment : Fragment() {
                     binding.state.setSelection(stateList.indexOf(currentAddress.value?.state))
 
                     runBlocking { viewModel.getLocalAddressRepresentatives(geoCodeLocation(location)) }
-                    binding.representatives.visibility = View.VISIBLE
+                    binding.representativesRecycler.visibility = View.VISIBLE
                 }
         }
     }
@@ -228,6 +224,11 @@ class RepresentativeFragment : Fragment() {
                 )
             }
             .first()
+    }
+
+    private fun setRecyclerViewAdapter() {
+        val adapterRepresentative = RepresentativeListAdapter()
+        binding.representativesRecycler.adapter = adapterRepresentative
     }
 
     private fun hideKeyboard() {

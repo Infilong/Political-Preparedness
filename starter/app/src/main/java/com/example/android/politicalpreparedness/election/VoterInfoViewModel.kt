@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.cbor.Cbor.Companion.context
 import java.util.*
+import kotlin.properties.Delegates
 
 class VoterInfoViewModel(private val dataSource: ElectionDatabase, val election: Election) :
     ViewModel() {
@@ -66,8 +67,9 @@ class VoterInfoViewModel(private val dataSource: ElectionDatabase, val election:
      * Hint: The saved state can be accomplished in multiple ways. It is directly related to how elections are saved/removed from the database.
      */
 
-    val isElectionFollowed: LiveData<Boolean> =
-        dataSource.electionDao.isElectionFollowed(election.id)
+    private fun isElectionIdFollowed() = dataSource.electionDao.isElectionFollowed(election.id)
+
+    var isElectionFollowed = isElectionIdFollowed()
     //    having data returned with get() backing method will always return a new instance of the corresponding data.
     //    In this case, we only want single instance of the LiveData which wil be observed for the values
     //get() = dataSource.electionDao.isElectionFollowed(election.id)
@@ -77,10 +79,12 @@ class VoterInfoViewModel(private val dataSource: ElectionDatabase, val election:
     //TODO: cont'd Handle save button clicks
     fun onFollowButtonClicked() {
         CoroutineScope(Dispatchers.IO).launch {
-            if (isElectionFollowed.value == true) {
+            if (isElectionIdFollowed()) {
                 dataSource.electionDao.unfollowElection(FollowedElections(election.id))
+                isElectionFollowed = true
             } else {
                 dataSource.electionDao.followElection(FollowedElections(election.id))
+                isElectionFollowed = false
             }
         }
     }

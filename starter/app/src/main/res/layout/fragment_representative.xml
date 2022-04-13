@@ -147,7 +147,7 @@
         <!-- TODO: Add Representatives RecyclerView -->
         <!-- TODO: Add visual styling and content -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/representatives"
+            android:id="@+id/representatives_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/default_padding"

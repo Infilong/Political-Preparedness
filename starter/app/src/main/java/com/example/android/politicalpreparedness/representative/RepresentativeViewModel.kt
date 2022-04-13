@@ -14,16 +14,11 @@ import java.lang.Exception
 
 class RepresentativeViewModel : ViewModel() {
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-
     //TODO: Establish live data for representatives and address
-    private var _representatives = MutableLiveData<List<Representative>>()
-    val representatives: MutableLiveData<List<Representative>>
-        get() = _representatives
 
-    private var _address = MutableLiveData<Address>()
-    val address: LiveData<Address>
-        get() = _address
+    var representatives = MutableLiveData<List<Representative>>()
+
+    var address = MutableLiveData<Address>()
 
     //TODO: Create function to fetch representatives from API from a provided address
     /**
@@ -46,7 +41,7 @@ class RepresentativeViewModel : ViewModel() {
             try {
                 val response =
                     CivicsApi.retrofitService.getRepresentatives(address.toString())
-                _representatives.value = response.body()?.representatives
+                representatives.value = response.body()?.representatives
             } catch (e: Exception) {
                 e.printStackTrace()
             }
