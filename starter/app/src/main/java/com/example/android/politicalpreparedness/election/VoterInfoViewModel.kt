@@ -70,10 +70,10 @@ class VoterInfoViewModel(
      * Hint: The saved state can be accomplished in multiple ways. It is directly related to how elections are saved/removed from the database.
      */
 
-    var isElectionIdFollowed = isElectionIdFollowedCheck()
+    var isElectionIdFollowed = dataSource.electionDao.isElectionFollowedLiveData(election.id)
     private fun isElectionIdFollowedCheck() = dataSource.electionDao.isElectionFollowed(election.id)
 
-    //var isElectionFollowed = false
+    //In Android, we cannot perform DB operations directly on MainThread.
     //    having data returned with get() backing method will always return a new instance of the corresponding data.
     //    In this case, we only want single instance of the LiveData which wil be observed for the values
     //get() = dataSource.electionDao.isElectionFollowed(election.id)
@@ -85,10 +85,8 @@ class VoterInfoViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             if (isElectionIdFollowedCheck()) {
                 dataSource.electionDao.unfollowElection(FollowedElections(election.id))
-                isElectionIdFollowed = false
             } else {
                 dataSource.electionDao.followElection(FollowedElections(election.id))
-                isElectionIdFollowed = true
             }
         }
     }

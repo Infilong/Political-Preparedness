@@ -50,16 +50,20 @@ class VoterInfoFragment : Fragment() {
             }
         }
 
-//        Set follow button click listener
-//
-//        binding.followElectionButton.setOnClickListener {
-//            viewModel.onFollowButtonClicked()
-//            if (viewModel.isElectionIdFollowed) {
-//                binding.followElectionButton.text = getText(R.string.unfollow_election)
-//            } else {
-//                binding.followElectionButton.text = getText(R.string.follow_election)
-//            }
-//        }
+        //followElectionButton.text changes with isElectionIdFollowed boolean status
+        viewModel.isElectionIdFollowed.observe(viewLifecycleOwner) { isElectionIdFollowed ->
+            if (isElectionIdFollowed != null && isElectionIdFollowed) {
+                binding.followElectionButton.text = getText(R.string.unfollow_election)
+            } else {
+                binding.followElectionButton.text = getText(R.string.follow_election)
+            }
+        }
+
+        //Set follow button click listener
+
+        binding.followElectionButton.setOnClickListener {
+            viewModel.onFollowButtonClicked()
+        }
 
         return binding.root
     }

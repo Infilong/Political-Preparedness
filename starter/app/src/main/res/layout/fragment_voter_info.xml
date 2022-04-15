@@ -129,7 +129,6 @@
             android:layout_marginEnd="@dimen/default_padding"
             android:layout_marginBottom="@dimen/double_padding"
             android:onClick="@{() -> viewModel.onFollowButtonClicked()}"
-            android:text="@{viewModel.isElectionIdFollowed ? @string/unfollow_election : @string/follow_election}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
