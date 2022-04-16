@@ -206,7 +206,6 @@ class RepresentativeFragment : Fragment() {
                     binding.state.setSelection(stateList.indexOf(currentAddress.value?.state))
 
                     runBlocking { viewModel.getLocalAddressRepresentatives(geoCodeLocation(location)) }
-                    binding.representativesRecycler.visibility = View.VISIBLE
                 }
         }
     }

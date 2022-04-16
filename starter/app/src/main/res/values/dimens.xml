@@ -7,5 +7,6 @@
     <dimen name="button_width">345dp</dimen>
     <dimen name="button_height">70dp</dimen>
     <dimen name="button_text_size">20sp</dimen>
+    <dimen name="edit_text_height">48sp</dimen>
     <dimen name="default_recycler_height">300dp</dimen>
 </resources>

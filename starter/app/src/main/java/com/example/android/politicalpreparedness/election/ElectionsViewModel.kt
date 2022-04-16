@@ -21,11 +21,7 @@ class ElectionsViewModel(context: Context) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            try {
-                repository.refreshElections()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            repository.refreshElections()
         }
     }
 

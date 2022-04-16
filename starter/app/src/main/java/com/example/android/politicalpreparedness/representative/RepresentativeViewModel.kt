@@ -1,15 +1,19 @@
 package com.example.android.politicalpreparedness.representative
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.politicalpreparedness.network.CivicsApi
+import com.example.android.politicalpreparedness.network.TAG
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.network.models.representatives
 import com.example.android.politicalpreparedness.representative.model.Representative
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.io.IOException
+import retrofit2.HttpException
 import java.lang.Exception
 
 class RepresentativeViewModel : ViewModel() {
@@ -42,8 +46,10 @@ class RepresentativeViewModel : ViewModel() {
                 val response =
                     CivicsApi.retrofitService.getRepresentatives(address.toString())
                 representatives.value = response.body()?.representatives
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } catch (e: IOException) {
+                Log.e(TAG, "IOException, please check your internet connection")
+            } catch (e: HttpException) {
+                Log.e(TAG, "HttpException, please check your internet connection")
             }
         }
     }

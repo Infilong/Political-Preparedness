@@ -61,3 +61,5 @@ object CivicsApi {
         retrofit.create(CivicsApiService::class.java)
     }
 }
+
+const val TAG = "RetrofitService"
