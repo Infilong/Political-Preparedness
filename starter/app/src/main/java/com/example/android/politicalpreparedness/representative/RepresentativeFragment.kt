@@ -75,9 +75,6 @@ class RepresentativeFragment : Fragment() {
         viewModel = RepresentativeViewModel()
         binding.viewModel = viewModel
 
-        //TODO: Define and assign Representative adapter
-        //TODO: Populate Representative adapter
-        setRecyclerViewAdapter()
 
         //an instance of the Fused Location Provider Client
         //https://developer.android.com/training/location/retrieve-current
@@ -105,10 +102,14 @@ class RepresentativeFragment : Fragment() {
             }
         }
 
+        //TODO: Define and assign Representative adapter
+        //TODO: Populate Representative adapter
+        setRecyclerViewAdapter()
+
         //TODO: Establish button listeners for field and location search
         binding.searchButton.setOnClickListener {
             hideKeyboard()
-
+            getLocation()
         }
 
         binding.locationButton.setOnClickListener {
@@ -130,23 +131,20 @@ class RepresentativeFragment : Fragment() {
             Snackbar.make(binding.root, R.string.location_request_denied, Snackbar.LENGTH_LONG)
                 .setAction(R.string.settings) {
                     requestLocationPermissions()
-                }
-                .show()
+                }.show()
         } else {
             getLocation()
         }
     }
 
-    private fun requestLocationPermissions(): Boolean {
-        return if (isPermissionGranted()) {
+    private fun requestLocationPermissions() {
+        if (isPermissionGranted()) {
             getLocation()
-            true
         } else {
             //TODO: Request Location permissions
             val permissionsArray = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
             val requestCode = REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
             requestPermissions(permissionsArray, requestCode)
-            false
         }
     }
 
@@ -196,16 +194,16 @@ class RepresentativeFragment : Fragment() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location: Location ->
                     // Got last known location
-                    viewModel.address.observe(viewLifecycleOwner) { geoCodeLocation(location) }
+                    val currentAddress = geoCodeLocation(location)
+                    viewModel.address.postValue(currentAddress)
 
-                    val currentAddress = viewModel.address
-                    binding.addressLine1.setText(currentAddress.value?.line1)
-                    binding.addressLine2.setText(currentAddress.value?.line2)
-                    binding.city.setText(currentAddress.value?.city)
-                    binding.zip.setText(currentAddress.value?.zip)
-                    binding.state.setSelection(stateList.indexOf(currentAddress.value?.state))
+                    binding.addressLine1.setText(currentAddress.line1)
+                    binding.addressLine2.setText(currentAddress.line2)
+                    binding.city.setText(currentAddress.city)
+                    binding.zip.setText(currentAddress.zip)
+                    binding.state.setSelection(stateList.indexOf(currentAddress.state))
 
-                    runBlocking { viewModel.getAddressRepresentatives(geoCodeLocation(location)) }
+                    runBlocking { viewModel.getAddressRepresentatives(currentAddress) }
                 }
         }
     }
@@ -228,6 +226,11 @@ class RepresentativeFragment : Fragment() {
     private fun setRecyclerViewAdapter() {
         val adapterRepresentative = RepresentativeListAdapter()
         binding.representativesRecycler.adapter = adapterRepresentative
+        viewModel.representatives.observe(viewLifecycleOwner) {
+            if (it != null) {
+                (binding.representativesRecycler.adapter as RepresentativeListAdapter).submitList(it)
+            }
+        }
     }
 
     private fun hideKeyboard() {
