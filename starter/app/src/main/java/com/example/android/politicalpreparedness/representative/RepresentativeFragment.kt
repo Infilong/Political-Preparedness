@@ -44,6 +44,7 @@ class RepresentativeFragment : Fragment() {
     private lateinit var viewModel: RepresentativeViewModel
     private lateinit var contxt: Context
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    var currentAddress = Address("","","","","")
 
     companion object {
         //TODO: Add Constant for Location request
@@ -102,19 +103,21 @@ class RepresentativeFragment : Fragment() {
             }
         }
 
-        //TODO: Define and assign Representative adapter
-        //TODO: Populate Representative adapter
-        setRecyclerViewAdapter()
+
 
         //TODO: Establish button listeners for field and location search
         binding.searchButton.setOnClickListener {
             hideKeyboard()
             getLocation()
+            //TODO: Define and assign Representative adapter
+            //TODO: Populate Representative adapter
+            setRecyclerViewAdapter()
         }
 
         binding.locationButton.setOnClickListener {
             hideKeyboard()
             requestLocationPermissions()
+            getLocation()
         }
 
         return binding.root
@@ -139,7 +142,7 @@ class RepresentativeFragment : Fragment() {
 
     private fun requestLocationPermissions() {
         if (isPermissionGranted()) {
-            getLocation()
+            return
         } else {
             //TODO: Request Location permissions
             val permissionsArray = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -194,7 +197,7 @@ class RepresentativeFragment : Fragment() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location: Location ->
                     // Got last known location
-                    val currentAddress = geoCodeLocation(location)
+                    currentAddress = geoCodeLocation(location)
                     viewModel.address.postValue(currentAddress)
 
                     binding.addressLine1.setText(currentAddress.line1)
@@ -202,8 +205,6 @@ class RepresentativeFragment : Fragment() {
                     binding.city.setText(currentAddress.city)
                     binding.zip.setText(currentAddress.zip)
                     binding.state.setSelection(stateList.indexOf(currentAddress.state))
-
-                    runBlocking { viewModel.getAddressRepresentatives(currentAddress) }
                 }
         }
     }
@@ -224,6 +225,7 @@ class RepresentativeFragment : Fragment() {
     }
 
     private fun setRecyclerViewAdapter() {
+        runBlocking { viewModel.getAddressRepresentatives(currentAddress) }
         val adapterRepresentative = RepresentativeListAdapter()
         binding.representativesRecycler.adapter = adapterRepresentative
         viewModel.representatives.observe(viewLifecycleOwner) {
