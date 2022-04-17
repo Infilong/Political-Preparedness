@@ -45,7 +45,7 @@ class VoterInfoViewModel(
                         address.toString(),
                         election.id
                     )
-                voterInfo.value = voterInfoResponse.body()
+                voterInfo.postValue(voterInfoResponse.body())
             } catch (e: IOException) {
                 Log.e(TAG, "IOException, please check your internet connection")
             } catch (e: HttpException) {

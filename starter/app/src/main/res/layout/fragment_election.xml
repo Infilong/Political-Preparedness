@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/upcoming_election_title"
-            style="@style/TextAppearance.AppCompat.Headline"
+            style="@style/head_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_padding"
@@ -48,7 +48,7 @@
 
         <TextView
             android:id="@+id/saved_elections_title"
-            style="@style/TextAppearance.AppCompat.Headline"
+            style="@style/head_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_padding"

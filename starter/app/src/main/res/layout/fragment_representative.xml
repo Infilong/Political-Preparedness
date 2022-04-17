@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/search_title"
-            style="@style/TextAppearance.AppCompat.Headline"
+            style="@style/head_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/representative_search"
@@ -36,7 +36,7 @@
 
         <EditText
             android:id="@+id/address_line_1"
-            style="@style/TextAppearance.AppCompat.Medium"
+            style="@style/content_style"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:autofillHints="AddressLine"
@@ -51,7 +51,7 @@
         <!-- TODO: Add visual styling and content -->
         <EditText
             android:id="@+id/address_line_2"
-            style="@style/TextAppearance.AppCompat.Medium"
+            style="@style/content_style"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:autofillHints="AddressLine"
@@ -66,7 +66,7 @@
         <!-- TODO: Add visual styling and content -->
         <EditText
             android:id="@+id/city"
-            style="@style/TextAppearance.AppCompat.Medium"
+            style="@style/content_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="City"
@@ -97,7 +97,7 @@
         <!-- TODO: Add visual styling and content -->
         <EditText
             android:id="@+id/zip"
-            style="@style/TextAppearance.AppCompat.Medium"
+            style="@style/content_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="Zip"
@@ -133,7 +133,7 @@
 
         <TextView
             android:id="@+id/representative_title"
-            style="@style/TextAppearance.AppCompat.Headline"
+            style="@style/head_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/my_representatives"

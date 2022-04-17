@@ -21,7 +21,7 @@
 
         <TextView
             android:id="@+id/upcoming_election_title"
-            style="@style/TextAppearance.AppCompat.Medium"
+            style="@style/content_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -33,7 +33,7 @@
 
         <TextView
             android:id="@+id/upcoming_election_time"
-            style="@style/TextAppearance.AppCompat.Small"
+            style="@style/content_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

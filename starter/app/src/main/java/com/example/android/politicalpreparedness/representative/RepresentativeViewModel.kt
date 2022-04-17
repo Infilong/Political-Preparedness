@@ -40,12 +40,15 @@ class RepresentativeViewModel : ViewModel() {
 
     //TODO: Create function to get address from individual fields
 
-    suspend fun getLocalAddressRepresentatives(address: Address) {
+    suspend fun getAddressRepresentatives(currentAddress: Address) {
+        address.postValue(currentAddress)
         withContext(Dispatchers.IO) {
             try {
                 val response =
-                    CivicsApi.retrofitService.getRepresentatives(address.toString())
-                representatives.value = response.body()?.representatives
+                    CivicsApi.retrofitService.getRepresentatives(currentAddress.toFormattedString())
+                // Use liveData.postValue(value) instead of liveData.value = value. It is called asynchronous.
+                //https://stackoverflow.com/questions/53304347/mutablelivedata-cannot-invoke-setvalue-on-a-background-thread-from-coroutine
+                representatives.postValue(response.body()?.representatives)
             } catch (e: IOException) {
                 Log.e(TAG, "IOException, please check your internet connection")
             } catch (e: HttpException) {
@@ -54,3 +57,4 @@ class RepresentativeViewModel : ViewModel() {
         }
     }
 }
+

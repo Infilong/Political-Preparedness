@@ -205,7 +205,7 @@ class RepresentativeFragment : Fragment() {
                     binding.zip.setText(currentAddress.value?.zip)
                     binding.state.setSelection(stateList.indexOf(currentAddress.value?.state))
 
-                    runBlocking { viewModel.getLocalAddressRepresentatives(geoCodeLocation(location)) }
+                    runBlocking { viewModel.getAddressRepresentatives(geoCodeLocation(location)) }
                 }
         }
     }

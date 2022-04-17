@@ -42,7 +42,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/official_image"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_bias="0.627"
             app:srcCompat="@drawable/ic_www" />
 
         <ImageView
@@ -57,21 +57,19 @@
 
         <TextView
             android:id="@+id/official_title"
-            style="@style/TextAppearance.AppCompat.Headline"
+            style="@style/content_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="TextView"
+            android:layout_marginTop="8dp"
+            android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/official_image"
             app:layout_constraintTop_toTopOf="@+id/official_image"
             tools:text="Official Title" />
 
         <TextView
             android:id="@+id/representative_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_padding"
-            android:text="TextView"
+            style="@style/content_style"
             app:layout_constraintBottom_toTopOf="@+id/party_name"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintHorizontal_bias="0.0"
@@ -81,10 +79,10 @@
 
         <TextView
             android:id="@+id/party_name"
+            style="@style/content_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_padding"
-            android:text="TextView"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/representative_name"
