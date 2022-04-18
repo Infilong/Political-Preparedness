@@ -44,7 +44,8 @@ class RepresentativeFragment : Fragment() {
     private lateinit var viewModel: RepresentativeViewModel
     private lateinit var contxt: Context
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    var currentAddress = Address("","","","","")
+    var currentAddress = Address("", "", "", "", "")
+    private lateinit var stateList: Array<String>
 
     companion object {
         //TODO: Add Constant for Location request
@@ -53,10 +54,6 @@ class RepresentativeFragment : Fragment() {
         private const val TAG = "RepresentativeFragment"
         private const val LOCATION_PERMISSION_INDEX = 0
     }
-
-    //Get state list resource
-    private val stateList: Array<String> =
-        activity?.resources?.getStringArray(R.array.states) ?: emptyArray()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -76,6 +73,8 @@ class RepresentativeFragment : Fragment() {
         viewModel = RepresentativeViewModel()
         binding.viewModel = viewModel
 
+        //Get state list resource
+        stateList = activity?.resources?.getStringArray(R.array.states) ?: emptyArray()
 
         //an instance of the Fused Location Provider Client
         //https://developer.android.com/training/location/retrieve-current
@@ -103,15 +102,14 @@ class RepresentativeFragment : Fragment() {
             }
         }
 
-
+        //TODO: Define and assign Representative adapter
+        //TODO: Populate Representative adapter
+        setRecyclerViewAdapter()
 
         //TODO: Establish button listeners for field and location search
         binding.searchButton.setOnClickListener {
             hideKeyboard()
-            getLocation()
-            //TODO: Define and assign Representative adapter
-            //TODO: Populate Representative adapter
-            setRecyclerViewAdapter()
+            runBlocking { viewModel.getAddressRepresentatives(viewModel.address.value) }
         }
 
         binding.locationButton.setOnClickListener {
@@ -225,7 +223,6 @@ class RepresentativeFragment : Fragment() {
     }
 
     private fun setRecyclerViewAdapter() {
-        runBlocking { viewModel.getAddressRepresentatives(currentAddress) }
         val adapterRepresentative = RepresentativeListAdapter()
         binding.representativesRecycler.adapter = adapterRepresentative
         viewModel.representatives.observe(viewLifecycleOwner) {

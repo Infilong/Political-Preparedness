@@ -34,7 +34,6 @@ class VoterInfoViewModel(
 
     //TODO: Add live data to hold voter info
     val voterInfo = MutableLiveData<VoterInfoResponse>()
-    val address = RepresentativeViewModel().address
 
     //TODO: Add var and methods to populate voter info
     private suspend fun getVoterInfo() {
@@ -42,7 +41,7 @@ class VoterInfoViewModel(
             try {
                 val voterInfoResponse =
                     CivicsApi.retrofitService.getVoterInfo(
-                        address.toString(),
+                        election.division.state,
                         election.id
                     )
                 voterInfo.postValue(voterInfoResponse.body())
